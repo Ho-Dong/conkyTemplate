@@ -1,0 +1,116 @@
+conky.config = {
+    --Background settings
+    background = true,
+
+    --Position settings
+    xinerama_head = 1,
+    alignment = 'top_right',
+
+    --own_window settings
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_colour = 'bbbbbb',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    --own_window_argb_visual = true,
+    --own_window_argb_value = 255,
+    own_window_transparent = true,
+    own_window_type = 'normal',
+    
+    --Buffers settings
+    double_buffer = true,
+    no_buffers = false,
+    text_buffer_size = 2048,
+    
+    --Font settings
+    use_xft = true,
+    xftalpha = 1,
+    font = 'IBM 3270:size=11',
+    uppercase = false,
+
+    --Update settings
+    update_interval = 1,
+
+    --UTF8 settings
+    override_utf8_locale = true,
+
+    --Border settings
+    stippled_borders = 1,
+    border_width = 5,
+    draw_borders = false,
+    draw_graph_borders = true,
+
+    --Design
+    draw_outline = false,
+    draw_shades = false,
+    short_units = false,
+
+    --Window
+    gap_x = 10,
+    gap_y = 10,
+    max_text_width = 40,
+
+    --Output
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+
+}
+conky.text = [[
+${goto 100}${color #fe54fe}Bonjour ${color #bbbbbb}$user_names
+${hr}
+${color #fe54fe}${execi 999999 lsb_release -ds}
+${color #fe54fe}|-${goto 40}Hostname : ${color #bbbbbb}$nodename
+${color #fe54fe}|-${goto 40}Kernel : ${color #bbbbbb}${kernel}
+${color #fe54fe}|-${goto 40}Architecture : ${color #bbbbbb}${machine}
+${color #fe54fe}|-${goto 40}Uptime : ${color #bbbbbb}$uptime
+${hr}
+${color #fe54fe}Status
+${color #fe54fe}|-${goto 40}CPU : ${color #bbbbbb}${cpu cpu0}% - ${freq_g}GHz
+${color #fe54fe}|-${goto 40}LoadAvg : ${color #bbbbbb}${loadavg}
+${color #fe54fe}|-${goto 40}RAM : ${color #bbbbbb}$mem / $memmax
+${color #fe54fe}|-${goto 40}SWAP : ${color #bbbbbb}${swap} / ${swapmax}
+${color #fe54fe}|-${goto 40}SWAP libre : ${color #bbbbbb}${swapfree}
+${hr}
+${color #fe54fe}Network
+${color #fe54fe}|-${goto 40}Interface : ${color #bbbbbb}$gw_iface
+${color #fe54fe}|-${goto 40}IP : ${color #bbbbbb}${texeci 3600 curl 'ifconfig.me'}
+${color #fe54fe}|-${goto 40}Traffic:${color #bbbbbb} ↓${downspeedf enp3s0}k/s ↑${upspeedf enp3s0}k/s
+${hr}
+${color #fe54fe}Stockage
+${color #fe54fe}|-${goto 40}Système : ${color #bbbbbb}${fs_free /} / ${fs_size /}
+${color #fe54fe}|-${goto 40}Expansion : ${color #bbbbbb}${fs_free /media/rackm/Seagate Expansion Drive/} / ${fs_size /media/rackm/Seagate Expansion Drive/}
+${color #fe54fe}|-${goto 40}Musique : ${color #bbbbbb}${fs_free /media/rackm/Musique/} / ${fs_size /media/rackm/Musique/}
+${color #fe54fe}|-${goto 40}ULTRA BOOST : ${color #bbbbbb}${fs_free /media/rackm/ULTRA BOOST/} / ${fs_size /media/rackm/ULTRA BOOST/}
+${hr}
+${color #fe54fe}Journée
+${color #fe54fe}|-${goto 40}Date : ${color #bbbbbb}${texeci 1000 date "+%A %d %B %Y" }
+${color #fe54fe}|-${goto 40}Météo : ${color #bbbbbb}${texeci 3600 curl -s 'wttr.in/Champigny-sur-Marne?0qT&lang=fr' | head -7}
+${hr}
+${color #fe54fe}Horaires BUS 106
+${color #fe54fe}|-${goto 40}Destination : ${color #bbbbbb}${execpi 4 python3 /home/rackm/.conkyrc/python/testsRATP.py -d}
+${color #fe54fe}|-${goto 40}Prochain Bus : ${color #bbbbbb}${execpi 4 python3 /home/rackm/.conkyrc/python/testsRATP.py -t1}
+${color #fe54fe}|-${goto 40}Second Bus : ${color #bbbbbb}${execpi 4 python3 /home/rackm/.conkyrc/python/testsRATP.py -t2}
+
+${color #fe54fe}Etat Ligne A
+${color #fe54fe}|-${goto 40}Etat : ${color #bbbbbb}${execpi 4 python3 /home/rackm/.conkyrc/python/testsRATP.py -rt}
+${color #fe54fe}|-${goto 40}Description : ${color #bbbbbb}${execpi 4 python3 /home/rackm/.conkyrc/python/testsRATP.py -rm}
+${hr}
+${color #fe54fe}Top CPU
+${color #fe54fe}|-${goto 40}${color #bbbbbb}${top name 1}${top cpu 1}${top mem 1}
+${color #fe54fe}|-${goto 40}${color #bbbbbb}${top name 2}${top cpu 2}${top mem 2}
+${color #fe54fe}|-${goto 40}${color #bbbbbb}${top name 3}${top cpu 3}${top mem 3}
+
+${color #fe54fe}Top MEM
+${color #fe54fe}|-${goto 40}${color #bbbbbb}${top_mem name 1}${top_mem cpu 1}${top_mem mem 1}
+${color #fe54fe}|-${goto 40}${color #bbbbbb}${top_mem name 2}${top_mem cpu 2}${top_mem mem 2}
+${color #fe54fe}|-${goto 40}${color #bbbbbb}${top_mem name 3}${top_mem cpu 3}${top_mem mem 3}
+${hr}
+${color #fe54fe}Musique (Clémentine)
+${if_match "${execi 10 python3 /home/rackm/.conkyrc/python/mediaplayer.py clementine -i}"=="yes"}|-  ${execpi 4 python3 /home/rackm/.conkyrc/python/mediaplayer.py clementine -a -w 45}
+${color #fe54fe}|-${goto 40}${execpi 4 python3 /home/rackm/.conkyrc/python/mediaplayer.py clementine -t -w 43}
+${color #fe54fe}|-${goto 40}${execpi 4 python3 /home/rackm/.conkyrc/python/mediaplayer.py clementine -m -w 43}
+${color #fe54fe}|-${goto 40}${execpi 4 python3 /home/rackm/.conkyrc/python/mediaplayer.py clementine -l -w 43}
+${color #fe54fe}|-${goto 40}${execpi 4 python3 /home/rackm/.conkyrc/python/mediaplayer.py clementine -e -w 43}
+${color #fe54fe}${else}${color #bbbbbb}Clementine n'est pas démarré
+${endif}
+]]
